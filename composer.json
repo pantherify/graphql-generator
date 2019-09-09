@@ -1,0 +1,27 @@
+{
+    "name": "pantherify/graphql-generator",
+    "description": "GraphQL Schema Generator based on Eloquent Models",
+    "type": "library",
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/dbal": "^2.9"
+    },
+    "authors": [
+        {
+            "name": "David Fernandes",
+            "email": "davidsf@pantherify.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pantherify\\GraphQLGenerator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "pantherify\\graphql-generator\\GraphQLGeneratorServiceProvider"
+            ]
+        }
+    }
+}

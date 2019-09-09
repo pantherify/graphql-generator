@@ -1,0 +1,627 @@
+directive @all(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+"""
+Return the currently authenticated user as the result of a query.
+"""
+directive @auth(
+    """
+    Use a particular guard to retreive the user.
+    """
+    guard: String
+) on FIELD_DEFINITION
+
+directive @belongsTo(
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+directive @belongsToMany(
+    """
+    Specify the default quantity of elements to be returned.
+    """
+    defaultCount: Int
+
+    """
+    Specify the maximum quantity of elements to be returned.
+    """
+    maxCount: Int
+
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+"""
+Runs the bcrypt function on the argument it is defined on.
+"""
+directive @bcrypt on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @broadcast(
+    """
+    Name of the subscription that should be retriggered as a result of this operation..
+    """
+    subscription: String!
+
+    """
+    Specify whether or not the job should be queued.
+    This defaults to the global config option `lighthouse.subscriptions.queue_broadcasts`.
+    """
+    shouldQueue: Boolean
+) on FIELD_DEFINITION
+
+"""
+Use an argument to modify the query builder for a field.
+"""
+directive @builder(
+    """
+    Reference a method that is passed the query builder.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    method: String!
+) on FIELD_DEFINITION
+
+"""Cache the result of a resolver."""
+directive @cache(
+    """
+    Set the duration it takes for the cache to expire in seconds.
+    If not given, the result will be stored forever.
+    """
+    maxAge: Int
+
+    """
+    Limit access to cached data to the currently authenticated user.
+    """
+    private: Boolean = false
+) on FIELD_DEFINITION
+
+"""Modifies Cache key"""
+directive @cacheKey on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @can(
+    """
+    The ability to check permissions for.
+    """
+    ability: String
+
+    """
+    Additional arguments for policy check.
+    """
+    args: [String!]
+) on FIELD_DEFINITION
+
+"""
+Customize the calculation of a fields complexity score before execution.
+"""
+directive @complexity(
+    """
+    Reference a function to customize the complexity score calculation.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    resolver: String
+) on FIELD_DEFINITION
+
+directive @create(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+) on FIELD_DEFINITION
+
+"""
+Delete one or more models by their ID.
+The field must have an single non-null argument that may be a list.
+"""
+directive @delete(
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
+) on FIELD_DEFINITION
+
+"""
+Marks an element of a GraphQL schema as no longer supported.
+"""
+directive @deprecated(
+    """
+    Explains why this element was deprecated, usually also including a
+    suggestion for how to access supported similar data. Formatted
+    in [Markdown](https://daringfireball.net/projects/markdown/).
+    """
+    reason: String = "No longer supported"
+) on FIELD_DEFINITION
+
+"""
+Assign a resolver function to a field.
+"""
+directive @field(
+    """
+    A reference to the resolver function to be used.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    resolver: String!
+
+    """
+    Supply additional data to the resolver.
+    """
+    args: [String!]
+) on FIELD_DEFINITION
+
+directive @find(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+directive @first(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+"""
+Assign an internal value to an enum key.
+"""
+directive @enum(
+    """
+    The internal value of the enum key.
+    You can use any constant literal value: https://graphql.github.io/graphql-spec/draft/
+    """
+    value: Mixed
+) on ENUM_VALUE
+
+directive @eq(
+    """
+    Specify the database column to compare.
+    Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @event(
+    """
+    Specify the fully qualified class name (FQCN) of the event to dispatch.
+    """
+    dispatch: String!
+) on FIELD_DEFINITION
+
+"""
+Converts between IDs/types and global IDs.
+When used upon a field, it encodes,
+when used upon an argument, it decodes.
+"""
+directive @globalId(
+    """
+    By default, an array of `[$type, $id]` is returned when decoding.
+    You may limit this to returning just one of both.
+    Allowed values: "ARRAY", "TYPE", "ID"
+  """
+    decode: String = "ARRAY"
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+
+"""
+Converts between IDs/types and global IDs.
+When used upon a field, it encodes,
+when used upon an argument, it decodes.
+"""
+directive @globalId(
+    """
+    By default, an array of `[$type, $id]` is returned when decoding.
+    You may limit this to returning just one of both.
+    Allowed values: "ARRAY", "TYPE", "ID"
+  """
+    decode: String = "ARRAY"
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+
+directive @group(
+    """
+    Specify which middleware to apply to all child-fields.
+    """
+    middleware: [String!]
+
+    """
+    Specify the namespace for the middleware.
+    """
+    namespace: String
+) on FIELD_DEFINITION
+
+directive @hasMany(
+    """
+    Specify the default quantity of elements to be returned.
+    """
+    defaultCount: Int
+
+    """
+    Specify the maximum quantity of elements to be returned.
+    """
+    maxCount: Int
+
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+directive @hasOne(
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+directive @in(
+    """
+    Specify the database column to compare.
+    Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @inject(
+    """
+    A path to the property of the context that will be injected.
+    If the value is nested within the context, you may use dot notation
+    to get it, e.g. "user.id".
+    """
+    context: String!
+
+    """
+    The target name of the argument into which the value is injected.
+    You can use dot notation to set the value at arbitrary depth
+    within the incoming argument.
+    """
+    name: String!
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Use a custom resolver to determine the concrete type of an interface.
+"""
+directive @interface(
+    """
+    Reference to a custom type-resolver function.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    resolver: String!
+) on INTERFACE
+
+directive @method(
+    """
+    Specify the method of which to fetch the data from.
+    """
+    name: String
+) on FIELD_DEFINITION
+
+directive @middleware(
+    """
+    Specify which middleware to run.
+    Pass in either a fully qualified class name, an alias or
+    a middleware group - or any combination of them.
+    """
+    checks: [String!]
+) on FIELD_DEFINITION
+
+"""
+Enable fetching an Eloquent model by its global id, may be
+used for Relay. Behind the scenes, Lighthouse will decode
+the global id sent from the client to find the model by it's
+primary id in the database.
+"""
+directive @model on OBJECT
+
+directive @neq(
+    """
+    Specify the database column to compare.
+    Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
+) on FIELD_DEFINITION
+
+"""
+Register a type for relay global object identification.
+"""
+directive @node(
+    """
+    Reference to resolver function.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    resolver: String!
+) on FIELD_DEFINITION
+
+directive @notIn(
+    """
+    Specify the name of the column.
+    Only required if it differs from the name of the argument.
+    """
+    key: String
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Sort a result list by one or more given fields.
+"""
+directive @orderBy on ARGUMENT_DEFINITION
+
+"""
+Query multiple entries as a paginated list.
+"""
+directive @paginate(
+    """
+    Which pagination style to use.
+    Allowed values: paginator, connection.
+    """
+    type: String = "paginator"
+
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+
+    """
+    Point to a function that provides a Query Builder instance.
+    This replaces the use of a model.
+    """
+    builder: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+
+    """
+    Overwrite the paginate_max_count setting value to limit the
+    amount of items that a user can request per page.
+    """
+    maxCount: Int
+
+    """
+    Use a default value for the amount of returned items
+    in case the client does not request it explicitly
+    """
+    defaultCount: Int
+) on FIELD_DEFINITION
+
+directive @rename(
+    """
+    Specify the original name of the property/key that the field
+    value can be retrieved from.
+    """
+    attribute: String!
+) on FIELD_DEFINITION
+
+"""
+Validate an argument using [Laravel built-in validation](https://laravel.com/docs/validation).
+"""
+directive @rules(
+    """
+    Specify the validation rules to apply to the field.
+    This can either be a reference to any of Laravel's built-in validation rules: https://laravel.com/docs/validation
+    or the fully qualified class name of a custom validation rule.
+    """
+    apply: [String!]!
+
+    """
+    Specify the messages to return if the validators fail.
+    Specified as an input object that maps rules to messages,
+    e.g. { email: "Must be a valid email", max: "The input was too long" }
+    """
+    messages: [RulesMessageMap!]
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Run validation on an array itself, using [Laravel built-in validation](https://laravel.com/docs/validation).
+"""
+directive @rulesForArray(
+    """
+    Specify the validation rules to apply to the field.
+    This can either be a reference to any of Laravel's built-in validation rules: https://laravel.com/docs/validation
+    or the fully qualified class name of a custom validation rule.
+    """
+    apply: [String!]!
+
+    """
+    Specify the messages to return if the validators fail.
+    Specified as an input object that maps rules to messages,
+    e.g. { email: "Must be a valid email", max: "The input was too long" }
+    """
+    messages: [RulesMessageMap!]
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Reference a class implementing a scalar definition.
+"""
+directive @scalar(
+    """
+    Reference to a class that extends `\GraphQL\Type\Definition\ScalarType`.
+    """
+    class: String!
+) on SCALAR
+
+"""
+Perform a full-text by the given input value.
+"""
+directive @search(
+    """
+    Specify a custom index to use for search.
+    """
+    within: String
+) on FIELD_DEFINITION
+
+"""
+Spread out the nested values of an argument of type input object into it's parent.
+"""
+directive @spread on ARGUMENT_DEFINITION
+
+"""
+Reference a class to handle the broadcasting of a subscription to clients.
+The given class must extend `\Nuwave\Lighthouse\Schema\Types\GraphQLSubscription`.
+"""
+directive @subscription(
+    """
+    A reference to a subclass of `\Nuwave\Lighthouse\Schema\Types\GraphQLSubscription`.
+    """
+    class: String!
+) on FIELD_DEFINITION
+
+"""
+Run the `trim` function on an input value.
+"""
+directive @trim on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Use a custom function to determine the concrete type of unions.
+"""
+directive @union(
+    """
+    Reference a function that returns the implementing Object Type.
+    Consists of two parts: a class name and a method name, seperated by an `@` symbol.
+    """
+    resolveType: String!
+) on UNION
+
+"""
+Update an Eloquent model with the input values of the field.
+"""
+directive @update(
+    """
+    Specify the class name of the model to use.
+    This is only needed when the default model resolution does not work.
+    """
+    model: String
+
+    """
+    Set to `true` to use global ids for finding the model.
+    If set to `false`, regular non-global ids are used.
+    """
+    globalId: Boolean = false
+) on FIELD_DEFINITION
+
+"""
+Use an input value as a [where filter](https://laravel.com/docs/queries
+"""
+directive @where(
+    """
+    Specify the operator to use within the WHERE condition.
+    """
+    operator: String = "="
+
+    """
+    Use Laravel's where clauses upon the query builder.
+    """
+    clause: String
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Verify that a column's value is between two values.
+The type of the input value this is defined upon should be
+an `input` object with two fields.
+"""
+directive @whereBetween on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Add a dynamically client-controlled where constraint to a fields query.
+The input value it is defined on may have any name but **must** be
+of the input type `WhereConstraints`.
+"""
+directive @whereConstraints on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Verify that a column's value lies outside of two values.
+The type of the input value this is defined upon should be
+an `input` object with two fields.
+"""
+directive @whereNotBetween(
+    """
+    Specify the database column to compare.
+    Only required if database column has a different name than the attribute in your schema.
+    """
+    key: String
+) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+"""
+Eager-load an Eloquent relation.
+"""
+directive @with(
+    """
+    Specify the relationship method name in the model class,
+    if it is named different from the field in the schema.
+    """
+    relation: String
+
+    """
+    Apply scopes to the underlying query.
+    """
+    scopes: [String!]
+) on FIELD_DEFINITION
+
+"""
+Order By Clause
+"""
+input OrderByClause{
+    field: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
