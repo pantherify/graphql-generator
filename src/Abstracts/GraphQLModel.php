@@ -5,6 +5,10 @@ namespace Pantherify\GraphQLGenerator\Abstracts;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class GraphQLModel
+ * @package Pantherify\GraphQLGenerator\Abstracts
+ */
 abstract class GraphQLModel extends Model
 {
     public $graph_update = [];

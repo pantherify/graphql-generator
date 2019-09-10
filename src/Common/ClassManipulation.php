@@ -7,6 +7,10 @@ namespace Pantherify\GraphQLGenerator\src\Common;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
+/**
+ * Class ClassManipulation
+ * @package Pantherify\GraphQLGenerator\src\Common
+ */
 class ClassManipulation
 {
     /**

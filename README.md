@@ -11,16 +11,16 @@ Models and Database current database structure.
 
 ### TODO
 - Generate queries based on Model Configuration
-    - List with:
-        - Pagination
-        - OrderBy
-        - Full Text Search with Laravel Scout
-    - Reference Mapping Query with:
-        - OrderBy
-        - Full Text Search with Laravel Scout
-    - Model Info by ID
+     - [x] List with:
+        - [x] Pagination
+        - [x] OrderBy
+        - [ ] Full Text Search with Laravel Scout
+    - [x] Reference Mapping Query with:
+        - [x] OrderBy
+        - [ ] Full Text Search with Laravel Scout
+    - [x] Model Info by ID
      
-- Generate Mutations based on Model Configuration
-    - Update Mutations
-    - Create Mutations
-    - Delete Mutations 
+- [ ] Generate Mutations based on Model Configuration
+    - [ ] Update Mutations
+    - [ ] Create Mutations
+    - [ ] Delete Mutations 

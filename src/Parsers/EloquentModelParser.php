@@ -12,6 +12,10 @@ use Illuminate\Foundation\Application;
 use Pantherify\GraphQLGenerator\src\Exceptions\ParserException;
 use ReflectionClass;
 
+/**
+ * Class EloquentModelParser
+ * @package Pantherify\GraphQLGenerator\src\Parsers
+ */
 class EloquentModelParser
 {
     /**
@@ -122,13 +126,21 @@ class EloquentModelParser
     }
 
 
-    static public function getQueries($properties, $name)
+    /**
+     * @param $properties
+     * @param $name
+     * @throws ParserException
+     */
+    static public function getMutations($properties, $name)
     {
         $queries = array();
         $instance = Application::getInstance()->make($name);
 
         foreach ($instance->graph_update as $prop) {
-
+            if (!in_array($prop, array_map(function ($a) {
+                return $a['name'];
+            }, $properties)))
+                throw ParserException::propertyDoesNotExist($prop, $name);
         }
 
         echo "GRAPHQL_UPDATE" . print_r($instance->graph_update, 1) . "\n";

@@ -2,17 +2,23 @@
 
 namespace Pantherify\GraphQLGenerator\Commands;
 
+use Generator;
 use Illuminate\Console\Command;
 use Pantherify\GraphQLGenerator\src\Generators\GraphQLGenerator;
 use Pantherify\GraphQLGenerator\src\Generators\GraphQLSchemaGenerator;
 
+/**
+ * Class GraphQLGeneratorCommand
+ * @package Pantherify\GraphQLGenerator\Commands
+ */
 class GraphQLGeneratorCommand extends Command
 {
 
 
     private $queryOptions = [
         'models' => false,
-        'queries' => true
+        'queries' => true,
+        'pretty' => false
     ];
     /**
      * The name and signature of the console command.
@@ -23,7 +29,10 @@ class GraphQLGeneratorCommand extends Command
         '
             graphql-gen:generate-models 
                 {--Q|queries : Generate Query Files}
-                {--skip-models : Skip Model Generation}
+                {--delete : Clear directories before generating files}
+                {--pretty : Run Prettier at the End - Required Prettier to be installed globally}
+                {--no-models : Skip Model Generation}
+                {--no-pagination : Does not include pagination in Listing Queries}
         ';
 
     /**
@@ -60,25 +69,48 @@ class GraphQLGeneratorCommand extends Command
             return;
         }
         // Get Schema
-        $schema = GraphQLGenerator::generateModels();
+        $schema = iterator_to_array(GraphQLGenerator::parseModels());
 
         // Generate Model Files
-        if($this->queryOptions['models']) {
-            $messages = GraphQLSchemaGenerator::createModelFiles(iterator_to_array($schema));
-            foreach ($messages as $message) $this->info($message);
+        if ($this->queryOptions['models']) {
+            $this->warn('Generating Models');
+
+            $this->printOutput(
+                GraphQLSchemaGenerator::createModelFiles($schema, $this->queryOptions)
+            );
+
         }
 
         if ($this->queryOptions['queries']) {
-            $messages = GraphQLSchemaGenerator::createQueryFiles(iterator_to_array($schema));
-            foreach ($messages as $message) $this->info($message);
+            $this->warn('Generating Queries');
+
+            $this->printOutput(
+                GraphQLSchemaGenerator::createQueryFiles($schema, $this->queryOptions)
+            );
         }
+
+
+        if ($this->queryOptions['pretty']) {
+
+            $this->warn('Running Prettier');
+            system('prettier --write graphql/generated/**/*.graphql');
+        }
+
     }
 
 
-    private function processArguments() {
+    private function processArguments()
+    {
         $this->queryOptions['queries'] = $this->option('queries');
-        $this->queryOptions['models'] = !$this->option('skip-models');
+        $this->queryOptions['models'] = !$this->option('no-models');
+        $this->queryOptions['pretty'] = $this->option('pretty');
+        $this->queryOptions['pagination'] = !$this->option('no-pagination');
+        $this->queryOptions['delete'] = $this->option('delete');
+    }
 
-        $this->info(json_encode($this->queryOptions));
+    private function printOutput(Generator $generator)
+    {
+        foreach ($generator as $message) $this->info($message);
+        $this->line("");
     }
 }

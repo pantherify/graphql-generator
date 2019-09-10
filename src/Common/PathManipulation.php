@@ -4,6 +4,10 @@
 namespace Pantherify\GraphQLGenerator\src\Common;
 
 
+/**
+ * Class PathManipulation
+ * @package Pantherify\GraphQLGenerator\src\Common
+ */
 class PathManipulation
 {
     public static function joinPaths() {
