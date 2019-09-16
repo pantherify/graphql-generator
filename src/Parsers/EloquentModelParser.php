@@ -9,6 +9,7 @@ use Doctrine\DBAL\Schema\Column;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Application;
+use Pantherify\GraphQLGenerator\Abstracts\GraphQLModel;
 use Pantherify\GraphQLGenerator\src\Exceptions\ParserException;
 use ReflectionClass;
 
@@ -129,22 +130,37 @@ class EloquentModelParser
     /**
      * @param $properties
      * @param $name
+     * @return array
      * @throws ParserException
      */
-    static public function getMutations($properties, $name)
+    static public function getMutationConfig($properties, $name)
     {
-        $queries = array();
+
+        /** @var GraphQLModel $instance */
         $instance = Application::getInstance()->make($name);
 
-        foreach ($instance->graph_update as $prop) {
-            if (!in_array($prop, array_map(function ($a) {
-                return $a['name'];
-            }, $properties)))
-                throw ParserException::propertyDoesNotExist($prop, $name);
+        return [
+            'create' => self::mapProperties($properties, $instance->graph_create),
+            'create_auth' => $instance->graph_create_auth,
+            'update' => self::mapProperties($properties, $instance->graph_update),
+            'update_auth' => $instance->graph_update_auth,
+            'delete_auth' => $instance->graph_delete_auth
+        ];
+    }
+
+    static private function mapProperties($properties, $props)
+    {
+        $output = [];
+
+        if (count($props) > 0) {
+            $output = array_merge(array_filter($properties, function ($p) use ($props) {
+                return in_array($p['name'], $props, true);
+            }), $output);
+        } else {
+            $output = $properties;
         }
 
-        echo "GRAPHQL_UPDATE" . print_r($instance->graph_update, 1) . "\n";
-
-
+        return $output;
     }
+
 }

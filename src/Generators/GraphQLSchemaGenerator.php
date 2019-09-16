@@ -68,5 +68,46 @@ class GraphQLSchemaGenerator
         }
     }
 
+    public static function createMutationFiles(array $graphTypes, array $opt): Generator
+    {
+
+        if ($opt['delete'])
+            GraphQLGenerator::delete_in_path("mutations");
+        else
+            GraphQLGenerator::create_base_path("mutations");
+
+        foreach ($graphTypes as $type) {
+            $name = strtolower($type['name']);
+
+            // Generate Create Files
+            self::generateFile("mutations/create", "mutation-create", $name, $type);
+            yield "GraphQL Mutation Generated ##CREATE## : ${name}";
+
+            // Generate Update Files
+            self::generateFile("mutations/update", "mutation-update", $name, $type);
+            yield "GraphQL Mutation Generated ##UPDATE## : ${name}";
+
+            // Generate Delete Files
+            self::generateFile("mutations/delete", "mutation-delete", $name, $type);
+            yield "GraphQL Mutation Generated ##DELETE## : ${name}";
+
+        }
+
+    }
+
+    private static function generateFile(String $basePath, String $template, String $name, $type)
+    {
+        GraphQLGenerator::create_base_path($basePath);
+        $output = View::make("graphql-gen::${template}",
+            [
+                'model' => $type,
+                'plural' => Str::plural($type['name']),
+                'single' => Str::singular($type['name'])
+            ]
+        )->render();
+
+        File::put(GraphQLGenerator::base_path($basePath) . GraphQLGenerator::schema_prefix() . "${name}-${template}.graphql", $output);
+    }
+
 }
 

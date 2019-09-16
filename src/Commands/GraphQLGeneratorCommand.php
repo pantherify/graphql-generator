@@ -17,8 +17,12 @@ class GraphQLGeneratorCommand extends Command
 
     private $queryOptions = [
         'models' => false,
+        'pagination' => true,
         'queries' => true,
-        'pretty' => false
+        'pretty' => false,
+        'mutations' => false,
+        'auth' => true,
+        'delete' => false
     ];
     /**
      * The name and signature of the console command.
@@ -29,10 +33,12 @@ class GraphQLGeneratorCommand extends Command
         '
             graphql-gen:generate-models 
                 {--Q|queries : Generate Query Files}
-                {--delete : Clear directories before generating files}
-                {--pretty : Run Prettier at the End - Required Prettier to be installed globally}
+                {--D|delete : Clear directories before generating files}
+                {--P|pretty : Run Prettier at the End - Required Prettier to be installed globally}
                 {--no-models : Skip Model Generation}
                 {--no-pagination : Does not include pagination in Listing Queries}
+                {--M|mutations : Generate Mutation Files (Create, Update, Delete)}
+                {--no-auth-mutation : Skip Authentication Implementation in Mutations}
         ';
 
     /**
@@ -89,11 +95,20 @@ class GraphQLGeneratorCommand extends Command
             );
         }
 
+        if ($this->queryOptions['mutations']) {
+            $this->warn('Generating Mutations');
+
+            $this->printOutput(
+                GraphQLSchemaGenerator::createMutationFiles($schema, $this->queryOptions)
+            );
+        }
+
 
         if ($this->queryOptions['pretty']) {
 
             $this->warn('Running Prettier');
             system('prettier --write graphql/generated/**/*.graphql');
+            system('prettier --write graphql/generated/**/**/*.graphql');
         }
 
     }
@@ -102,10 +117,12 @@ class GraphQLGeneratorCommand extends Command
     private function processArguments()
     {
         $this->queryOptions['queries'] = $this->option('queries');
-        $this->queryOptions['models'] = !$this->option('no-models');
-        $this->queryOptions['pretty'] = $this->option('pretty');
-        $this->queryOptions['pagination'] = !$this->option('no-pagination');
         $this->queryOptions['delete'] = $this->option('delete');
+        $this->queryOptions['pretty'] = $this->option('pretty');
+        $this->queryOptions['models'] = !$this->option('no-models');
+        $this->queryOptions['pagination'] = !$this->option('no-pagination');
+        $this->queryOptions['mutations'] = $this->option('mutations');
+        $this->queryOptions['auth'] = !$this->option('no-auth-mutation');
     }
 
     private function printOutput(Generator $generator)
@@ -113,4 +130,5 @@ class GraphQLGeneratorCommand extends Command
         foreach ($generator as $message) $this->info($message);
         $this->line("");
     }
+
 }

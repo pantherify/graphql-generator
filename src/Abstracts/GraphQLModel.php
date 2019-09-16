@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class GraphQLModel extends Model
 {
-    public $graph_update = [];
     public $graph_create = [];
+    public $graph_create_auth = true;
 
-    public $graph_is_auth = false;
-    public $graph_auth_role = [];
+    public $graph_update = [];
+    public $graph_update_auth = true;
+
+    public $graph_delete_auth = true;
 }

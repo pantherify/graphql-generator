@@ -72,12 +72,14 @@ class GraphQLGenerator
                 $schemaName = $reflection_class->getShortName();
                 $properties = EloquentModelParser::getTableProperties($model);
                 $relations = EloquentModelParser::getRelations($reflection_class, $class);
-
+                $mutations = EloquentModelParser::getMutationConfig($properties, $class);
+                
                 yield array(
                     'name' => $schemaName,
                     'namespace' => $reflection_class->getName(),
                     'attributes' => $properties,
-                    'relations' => $relations
+                    'relations' => $relations,
+                    'mutations' => $mutations
                 );
 
             } catch (\Exception $e) {

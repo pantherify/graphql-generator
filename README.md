@@ -20,7 +20,8 @@ Models and Database current database structure.
         - [ ] Full Text Search with Laravel Scout
     - [x] Model Info by ID
      
-- [ ] Generate Mutations based on Model Configuration
-    - [ ] Update Mutations
-    - [ ] Create Mutations
-    - [ ] Delete Mutations 
+- [x] Generate Mutations based on Model Configuration
+    - [x] Update Mutations
+    - [x] Create Mutations
+    - [x] Delete Mutations
+- [ ] Authentication on Mutations 
