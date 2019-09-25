@@ -2,6 +2,7 @@
     "name": "pantherify/graphql-generator",
     "description": "GraphQL Schema Generator based on Eloquent Models",
     "type": "library",
+    "version": "0.9.0",
     "minimum-stability": "dev",
     "require": {
         "doctrine/dbal": "^2.9"
