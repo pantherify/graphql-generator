@@ -20,7 +20,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "pantherify\\graphql-generator\\GraphQLGeneratorServiceProvider"
+                "Pantherify\\GraphQLGenerator\\GraphQLGeneratorServiceProvider"
             ]
         }
     }
